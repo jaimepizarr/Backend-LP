@@ -13,9 +13,16 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended:true }));
 
+const db = require("./app/models");
+db.sequelize.sync().then(() => {
+    console.log("sync db.");
+  });
+
 app.get("/", (req, res) => {
    res.json("Welcome to ABONET API Server"); 
 });
+
+require("./app/routes/abogado.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
