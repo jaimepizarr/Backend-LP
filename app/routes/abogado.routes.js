@@ -5,7 +5,10 @@ module.exports = app => {
 
     router.post("/", abogados.create);
 
+    router.get("/", abogados.findAll);
+
+    router.get("/byCiudad", abogados.findByCiudad);
 
 
-    app.use('api/abogados',router);
+    app.use('/api/abogados',router);
 }

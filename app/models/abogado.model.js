@@ -4,7 +4,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         correo: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            validate:{
+                isEmail: true
+            }
         },
         descripcion:{
             type: Sequelize.STRING
@@ -23,3 +26,4 @@ module.exports = (sequelize, Sequelize) => {
 
     return Abogado;
 }
+

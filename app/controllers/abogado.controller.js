@@ -1,5 +1,6 @@
 const db = require("../models");
 const Abogado = db.abogado;
+const Ubicacion = db.ubicacion;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -31,3 +32,34 @@ exports.create = (req, res) => {
         });
     });
 };
+
+exports.findAll = (req, res) => {
+    Abogado.findAll()
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+        message: "Ocurrió un error al obtener los abogados."
+        });
+    });
+}
+
+exports.findByCiudad = (req, res) => {
+    Ubicacion.findAll({
+        where: {ciudad: req.query.ciudad},
+        include: [{
+            model: Abogado,
+            as: 'abogado'
+        }]
+    })
+    .then(data => {
+        response = data.map(item => item.abogado)
+        res.send(response);
+    })
+    .catch(err => {
+        res.status(500).send({
+        message: "Ocurrió un error al obtener los abogados."
+        });
+    });
+}
