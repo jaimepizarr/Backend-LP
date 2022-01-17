@@ -20,11 +20,12 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.abogado = require("./abogado.model.js")(sequelize, Sequelize);
-db.usuario= require("./usuario.model.js")(sequelize, Sequelize);
-db.comentario = require("./comentario.models.js")(sequelize,Sequelize);
+db.usuario = require("./usuario.model.js")(sequelize, Sequelize);
+db.comentario = require("./comentario.models.js")(sequelize, Sequelize);
+db.categoria = require("./categoria.model.js")(sequelize, Sequelize);
 
-db.abogado.hasMany(db.comentario, {as: "comentarios"});
-db.usuario.hasMany(db.comentario, {as: "comentarios"});
+db.abogado.hasMany(db.comentario, { as: "comentarios" });
+db.usuario.hasMany(db.comentario, { as: "comentarios" });
 
 db.comentario.belongsTo(db.abogado, {
   foreignKey: "abogadoId",
