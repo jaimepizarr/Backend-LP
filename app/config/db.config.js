@@ -1,7 +1,7 @@
 module.exports = {
     HOST: 'localhost',
     USER: 'root',
-    PASSWORD: 'uO:z4<P3W]g/F(A{Au:G', //Use your own password
+    PASSWORD: 'root', //Use your own password
     DB: 'abonetdb',
     dialect: 'mysql',
     pool: {
