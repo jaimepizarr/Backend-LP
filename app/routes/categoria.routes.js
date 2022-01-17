@@ -5,5 +5,5 @@ module.exports = app => {
 
     router.post("/categoria", categoria.create);
     router.get("/", categoria.findAll);
-    app.use('api/categorias', router);
+    app.use('/api/categorias', router);
 }

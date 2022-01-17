@@ -3,7 +3,7 @@ const Categoria = db.categoria;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    if (!req.body.nombre_completo) {
+    if (!req.body.nombre) {
         res.status(400).send({
             message: "Content can not be empty"
         });

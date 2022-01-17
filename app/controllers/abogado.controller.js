@@ -6,11 +6,11 @@ exports.create = (req, res) => {
     // Validate request
     if (!req.body.nombre_completo) {
         res.status(400).send({
-        message: "Content can not be empty!"
+            message: "Content can not be empty!"
         });
         return;
     }
-    
+
     // Create a Tutorial
     const abogado = {
         nombre_completo: req.body.nombre_completo,
@@ -19,15 +19,32 @@ exports.create = (req, res) => {
         experiencia: req.body.experiencia,
         calificacion: req.body.calificacion ? req.body.calificacion : 0
     };
-    
+
     // Save
     Abogado.create(abogado)
-    .then(data => {
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al crear el abogado."
+            });
+        });
+
+};
+
+exports.findRanking = (req, res) => {
+    order: [["calificacion", "DESC"]]
+    Abogado.findAll(
+        {
+            attributes: ["id", "nombre_completo", "correo", "descripcion", "experiencia", "calificacion"]
+        }
+    ).then(data => {
         res.send(data);
-    })
-    .catch(err => {
+    }
+    ).catch(err => {
         res.status(500).send({
-        message: err.message || "Ocurrió un error al crear el abogado."
+            message: err.message || "Ocurrió un error al consultar los abogados."
         });
     });
-};
+}

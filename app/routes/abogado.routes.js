@@ -5,7 +5,7 @@ module.exports = app => {
 
     router.post("/", abogados.create);
 
+    router.get("/ranking", abogados.findRanking);
 
-
-    app.use('api/abogados',router);
+    app.use('/api/abogados', router);
 }
