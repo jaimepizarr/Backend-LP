@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/abogado.routes")(app);
+require("./app/routes/ubicacion.routes")(app);
 require("./app/routes/categoria.routes")(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
