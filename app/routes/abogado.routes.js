@@ -9,7 +9,10 @@ module.exports = app => {
 
     router.get("/comentarios/:id", abogado.findAll);
     router.get("/by_id?id=:id", abogado.findOne);
-    router.get("/",abogado.findAll);
+    router.get("/ranking", abogados.findRanking);
+    router.get("/", abogados.findAll);
+    router.get("/byCiudad", abogados.findByCiudad);
 
-    app.use('/api/abogados',router);
+
+    app.use('/api/abogados', router);
 }
