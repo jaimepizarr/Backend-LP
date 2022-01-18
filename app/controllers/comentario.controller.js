@@ -14,7 +14,9 @@ exports.create = (req, res) => {
     // Create a Tutorial
     const comentario = {
         mensaje: req.body.mensaje,
-        calificacion: req.body.calificacion ? req.body.calificacion : 0
+        calificacion: req.body.calificacion ? req.body.calificacion : 0,
+        abogadoId: req.body.abogadoId,
+        usuarioId: req.body.usuarioId
     };
     
     // Save
