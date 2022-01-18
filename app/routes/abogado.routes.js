@@ -7,7 +7,7 @@ module.exports = app => {
 
     router.post("/", abogados.create);
 
-    router.get("/by_id?id=:id", abogados.findOne);
+    router.get("/by_id", abogados.findOne);
     router.get("/ranking", abogados.findRanking);
     router.get("/", abogados.findAll);
     router.get("/byCiudad", abogados.findByCiudad);

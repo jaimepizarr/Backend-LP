@@ -5,7 +5,7 @@ module.exports = app => {
 
     router.post("/", comentario.create);
 
-    router.get("/byAbogadoID?id=:id",comentario.findComments);
+    router.get("/byAbogadoID",comentario.findComments);
 
     app.use('/api/comentario',router);
 }

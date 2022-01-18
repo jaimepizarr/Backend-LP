@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 exports.findComments = (req,res) =>{
     const id= req.query.id;
 
-    Comentario.findAll({
+    comentarios.findAll({
         where : {abogadoId: id}
     })
     .then(data=>{
