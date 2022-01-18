@@ -7,5 +7,5 @@ module.exports = app => {
 
 
 
-    app.use('api/comentario',router);
+    app.use('/api/comentario',router);
 }

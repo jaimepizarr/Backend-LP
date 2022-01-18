@@ -1,3 +1,5 @@
+const { abogado } = require("../models/index.js");
+
 module.exports = app => {
     const abogados = require("../controllers/abogado.controller.js");
 
@@ -5,7 +7,9 @@ module.exports = app => {
 
     router.post("/", abogados.create);
 
+    router.get("/comentarios/:id", abogado.findAll);
+    router.get("/by_id?id=:id", abogado.findOne);
+    router.get("/",abogado.findAll);
 
-
-    app.use('api/abogados',router);
+    app.use('/api/abogados',router);
 }

@@ -4,6 +4,9 @@ module.exports = app =>{
 
     router.post("/",usuarios.create);
 
+    router.get("/",usuario.findAll);
 
-    app.use('api/usuarios',router);
+   
+
+    app.use('/api/usuarios',router);
 }
