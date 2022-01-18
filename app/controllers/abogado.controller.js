@@ -60,19 +60,19 @@ exports.findComments = (req,res) =>{
     Comentario.findAll({
         where : {abogadoId: id}, 
         include:[{
-            model:Comentario,
-            as: 'comentario'
+            model:Abogado,
+            as: 'abogado'
         }]
     })
     .then(data=>{
-        response = data.map(item=>item.comentario)
-        res.send(response);
+        //response = data.filter(item => {item.abogado})
+        res.send(data);
     })
     .catch(err=>{
         res.status(500).send({
             message: "Ocurrió un error al obtener los Comentarios."
             });
-    })
+    });
 
 }
 
