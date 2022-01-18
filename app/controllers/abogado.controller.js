@@ -54,27 +54,6 @@ exports.findRanking = (req, res) => {
 
 
 
-exports.findComments = (req,res) =>{
-    const id= req.params.id;
-
-    Comentario.findAll({
-        where : {abogadoId: id}, 
-        include:[{
-            model:Abogado,
-            as: 'abogado'
-        }]
-    })
-    .then(data=>{
-        //response = data.filter(item => {item.abogado})
-        res.send(data);
-    })
-    .catch(err=>{
-        res.status(500).send({
-            message: "Ocurrió un error al obtener los Comentarios."
-            });
-    });
-
-}
 
 
 exports.findOne = (req,res) =>{

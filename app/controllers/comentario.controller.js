@@ -1,5 +1,6 @@
 const db = require("../models");
 const comentarios = db.comentario;
+const abogados = db.abogado;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -30,3 +31,22 @@ exports.create = (req, res) => {
         });
     });
 };
+
+
+exports.findComments = (req,res) =>{
+    const id= req.query.id;
+
+    Comentario.findAll({
+        where : {abogadoId: id}
+    })
+    .then(data=>{
+        //response = data.filter(item => {item.abogado})
+        res.send(data);
+    })
+    .catch(err=>{
+        res.status(500).send({
+            message: "Ocurrió un error al obtener los Comentarios."
+            });
+    });
+
+}
