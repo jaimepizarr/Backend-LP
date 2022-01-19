@@ -52,16 +52,9 @@ db.abogado_categoria.belongsTo(db.categoria, {
 });
 
 
-
-
-
-
-
-
-
-
 db.comentario.belongsTo(db.usuario, {
   foreignKey: "usuarioId",
   as: "usuario",
 });
+
 module.exports = db;

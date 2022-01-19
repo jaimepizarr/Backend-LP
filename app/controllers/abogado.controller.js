@@ -1,7 +1,9 @@
 const { response } = require("express");
+const { where } = require("sequelize/dist");
 const db = require("../models");
 const Abogado = db.abogado;
-const Comentario = db.comentario;
+const aboxCategoria=db.abogadoxcategoria;
+const categoria = db.categoria;
 const Ubicacion = db.ubicacion;
 const Op = db.Sequelize.Op;
 
@@ -99,4 +101,18 @@ exports.findByCiudad = (req, res) => {
                 message: "Ocurrió un error al obtener los abogados."
             });
         });
+}
+
+
+exports.findCategoria = (req, res)=> {
+    const id=req.params.id;
+    aboxCategoria.findAll({where: id})
+    .then(data=>{
+        res.send(data);
+    })
+    .catch(err =>{
+        res.status(500).send({
+            message: "Ocurrió un error al obtener las categorias del abogado."
+        });
+    })
 }
