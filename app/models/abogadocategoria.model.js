@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const abogadoxcategoria = sequelize.define("abogadoxcategoria", { });
+    const Abogadoxcategoria = sequelize.define("abogadoxcategoria", { });
 
-    return abogadoxcategoria;
+    return Abogadoxcategoria;
 }
