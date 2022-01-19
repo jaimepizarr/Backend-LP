@@ -1,5 +1,4 @@
 const { response } = require("express");
-const { where } = require("sequelize/dist");
 const db = require("../models");
 const Abogado = db.abogado;
 const aboxCategoria=db.abogadoxcategoria;
