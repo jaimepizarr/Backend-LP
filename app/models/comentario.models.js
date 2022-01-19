@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize)=>{
-    const comentario = sequelize.define("comentario",{
+    const Comentario = sequelize.define("comentario",{
         mensaje:{
             type: Sequelize.STRING
         },
@@ -12,5 +12,5 @@ module.exports = (sequelize, Sequelize)=>{
         }
     });
 
-    return comentario;
+    return Comentario;
 };
