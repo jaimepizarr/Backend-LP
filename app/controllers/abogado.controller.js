@@ -1,7 +1,7 @@
 const { response } = require("express");
 const db = require("../models");
 const Abogado = db.abogado;
-const aboxCategoria=db.abogadoxcategoria;
+const abogadoxcategoria = db.abogado_categoria;
 const categoria = db.categoria;
 const Ubicacion = db.ubicacion;
 const Op = db.Sequelize.Op;
@@ -58,7 +58,7 @@ exports.findRanking = (req, res) => {
 
 
 exports.findOne = (req,res) =>{
-    const id= req.params.id;
+    const id= req.query.id;
   Abogado.findOne({where: id})
     .then(data => {
       res.send(data);
@@ -104,14 +104,28 @@ exports.findByCiudad = (req, res) => {
 
 
 exports.findCategoria = (req, res)=> {
-    const id=req.params.id;
-    aboxCategoria.findAll({where: id})
+    const id=req.query.id;
+    const response = [];
+    abogadoxcategoria.findAll({
+        where: {abogadoId : id}
+    })
     .then(data=>{
-        res.send(data);
+        data.forEach(item => {
+            categoria.findAll({where: item.dataValues.categoriumId})
+            .then(cat => {
+                res.send(cat)
+            }).catch(err =>{
+                console.log(err.message)
+            })
+            
+        })
+       
     })
     .catch(err =>{
         res.status(500).send({
-            message: "Ocurrió un error al obtener las categorias del abogado."
+            message: err.message || "Ocurrió un error al obtener las categorias del abogado."
         });
     })
+   //console.log("enviando datos")
+   
 }

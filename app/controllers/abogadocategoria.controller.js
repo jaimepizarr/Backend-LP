@@ -1,15 +1,16 @@
 const db = require("../models");
-const abogado_categoria = db.abogadoxcategoria;
+const abogadoxcategoria = db.abogado_categoria;
+const categoria = db.categoria;
 const Op = db.Sequelize.Op;
 
 
 exports.create = (req,res)=>{
-    const abogadoxcategoria = {
-        categoria : req.body.categorias,
-        abogado: req.body.abogados
+    const abogado_categoria = {
+        categoriumId : req.body.categorias,
+        abogadoId: req.body.abogados
     };
 
-    abogado_categoria.create(abogadoxcategoria)
+    abogadoxcategoria.create(abogado_categoria)
     .then(data => {
         res.send(data);
     })
@@ -35,3 +36,9 @@ exports.findAll = (req, res) => {
     );
 };
 
+exports.findCategoria=(id)=>{
+    categoria.findAll({where: id})
+    .then(data => {
+        return data
+    })
+}
