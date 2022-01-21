@@ -46,7 +46,7 @@ exports.findAll = (req, res) => {
     );
 };
 
-exports.findAbogados = (req, res)=> {
+exports.findByAbogados = (req, res)=> {
     const id_abo=req.query.abogado;
     Abogado.findAll({
         where: {id : id_abo},

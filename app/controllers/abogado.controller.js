@@ -103,7 +103,7 @@ exports.findByCiudad = (req, res) => {
 }
 
 
-exports.findCategoria = (req, res)=> {
+exports.findByCategoria = (req, res)=> {
     const id_cat=req.query.categoria;
     categoria.findAll({
         where: {id : id_cat},

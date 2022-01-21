@@ -11,7 +11,7 @@ module.exports = app => {
     router.get("/ranking", abogados.findRanking);
     router.get("/", abogados.findAll);
     router.get("/byCiudad", abogados.findByCiudad);
-    router.get("/by_categ", abogados.findCategoria);
+    router.get("/by_categ", abogados.findByCategoria);
 
 
     app.use('/api/abogados', router);
