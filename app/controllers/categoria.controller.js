@@ -1,5 +1,7 @@
 const db = require("../models");
 const Categoria = db.categoria;
+const Abogado = db.abogado;
+const abogadoxcategoria = db.abogado_categoria;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -44,3 +46,23 @@ exports.findAll = (req, res) => {
     );
 };
 
+exports.findAbogados = (req, res)=> {
+    const id_abo=req.query.abogado;
+    Abogado.findAll({
+        where: {id : id_abo},
+        include: [{
+            model: Categoria,
+        }],
+    })
+    .then(data=>{
+        console.log(data.dataValues);
+        res.send(data);
+    })
+    .catch(err =>{
+        res.status(500).send({
+            message: err.message || `Ocurrió un error al obtener los abogados perteneciente a la categoria de id: ${id_cat}.`
+        });
+    })
+   //console.log("enviando datos")
+   
+}

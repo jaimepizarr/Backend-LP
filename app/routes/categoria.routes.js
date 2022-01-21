@@ -5,5 +5,6 @@ module.exports = app => {
 
     router.post("/", categoria.create);
     router.get("/", categoria.findAll);
+    router.get("/byAbg", categoria.findAbogados);
     app.use('/api/categorias', router);
 }
