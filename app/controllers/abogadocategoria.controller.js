@@ -6,8 +6,8 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req,res)=>{
     const abogado_categoria = {
-        categoriumId : req.body.categorias,
-        abogadoId: req.body.abogados
+        categoriumId : req.body.categoria,
+        abogadoId: req.body.abogado
     };
 
     abogadoxcategoria.create(abogado_categoria)
@@ -24,7 +24,10 @@ exports.create = (req,res)=>{
 
 exports.findAll = (req, res) => {
     abogado_categoria.findByPk(req.params.id, {
-        include: ["abogado"]
+        include: [{
+            model: Abogado,
+            as: 'abogado'
+        }]
     }).then(data => {
         res.send(data);
     }

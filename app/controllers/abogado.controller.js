@@ -104,26 +104,19 @@ exports.findByCiudad = (req, res) => {
 
 
 exports.findCategoria = (req, res)=> {
-    const id=req.query.id;
-    const response = [];
-    abogadoxcategoria.findAll({
-        where: {abogadoId : id}
+    const id_cat=req.query.categoria;
+    categoria.findAll({
+        where: {id : id_cat},
+        include: [{
+            model: Abogado,
+        }],
     })
     .then(data=>{
-        data.forEach(item => {
-            categoria.findAll({where: item.dataValues.categoriumId})
-            .then(cat => {
-                res.send(cat)
-            }).catch(err =>{
-                console.log(err.message)
-            })
-            
-        })
-       
+        res.send(data);
     })
     .catch(err =>{
         res.status(500).send({
-            message: err.message || "Ocurrió un error al obtener las categorias del abogado."
+            message: err.message || `Ocurrió un error al obtener los abogados perteneciente a la categoria de id: ${id_cat}.`
         });
     })
    //console.log("enviando datos")
