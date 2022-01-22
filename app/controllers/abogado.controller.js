@@ -1,19 +1,24 @@
 const { response } = require("express");
+const { abogado } = require("../models");
 const db = require("../models");
 const Abogado = db.abogado;
 const abogadoxcategoria = db.abogado_categoria;
 const categoria = db.categoria;
 const Ubicacion = db.ubicacion;
 const Op = db.Sequelize.Op;
+const encryption = require("../utils/encryption");
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validate request
-    if (!req.body.nombre_completo) {
+    if (!req.body.nombre_completo || !req.body.correo || !req.body.contrasena) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "Se necesita que se incluya toda la información del abogado."	
         });
         return;
     }
+
+    const passwordEncrypt = await encryption.encrypt(req.body.contrasena);
+    console.log(passwordEncrypt);
 
     // Create a Tutorial
     const abogado = {
@@ -21,7 +26,8 @@ exports.create = (req, res) => {
         correo: req.body.correo,
         descripcion: req.body.descripcion,
         experiencia: req.body.experiencia,
-        calificacion: req.body.calificacion ? req.body.calificacion : 0
+        calificacion: req.body.calificacion ? req.body.calificacion : 0,
+        contrasena: passwordEncrypt
     };
 
     // Save
@@ -36,6 +42,32 @@ exports.create = (req, res) => {
         });
 
 };
+
+exports.login = (req, res) => {
+    // Validate request
+    if (!req.body.correo || !req.body.contrasena) {
+        res.status(400).send({
+            message: "Se necesita el correo y la contraseña."
+        });
+    }else{
+        Abogado.findOne({ where: { correo: req.body.correo } })
+        .then(async data => {
+            data = data["dataValues"];
+            abogado_pass = data.contrasena;
+            let isValid = await encryption.compare(req.body.contrasena, abogado_pass)
+            if (isValid){
+                res.status(200).send(data);
+            }else{
+                res.status(401).send({
+                    message: "Contraseña incorrecta."
+                });
+            }
+        })
+        .catch(err => {console.log(err);
+        });
+    }
+};
+
 
 exports.findRanking = (req, res) => {
     order: [["calificacion", "DESC"]]
@@ -52,10 +84,6 @@ exports.findRanking = (req, res) => {
         });
     });
 };
-
-
-
-
 
 exports.findOne = (req,res) =>{
     const id= req.query.id;

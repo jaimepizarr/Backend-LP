@@ -5,7 +5,8 @@ module.exports = app => {
 
     var router = require("express").Router();
 
-    router.post("/", abogados.create);
+    router.post("/register", abogados.create);
+    router.post("/login", abogados.login);
 
     router.get("/by_id", abogados.findOne);
     router.get("/ranking", abogados.findRanking);

@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
                 isEmail: true
             }
         },
+        contrasena: {
+            type: Sequelize.STRING,
+        },
         descripcion:{
             type: Sequelize.STRING
         },
