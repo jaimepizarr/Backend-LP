@@ -12,7 +12,7 @@ exports.create = async (req, res) => {
     // Validate request
     if (!req.body.nombre_completo || !req.body.correo || !req.body.contrasena) {
         res.status(400).send({
-            message: "Se necesita que se incluya toda la información del abogado."	
+            message: "Se necesita que se incluya toda la información del abogado.", data: req.body	
         });
         return;
     }
@@ -31,9 +31,19 @@ exports.create = async (req, res) => {
     };
 
     // Save
-    Abogado.create(abogado)
+    Abogado.findOrCreate({
+        where:{
+            correo: abogado.correo
+        },
+        defaults: abogado
+        })  
         .then(data => {
-            res.send(data);
+            if (data[1]){
+                res.send(data[0]);
+            }else{
+                res.status(400).send({"message": "El correo ya está registrado."});
+            }
+            
         })
         .catch(err => {
             res.status(500).send({
