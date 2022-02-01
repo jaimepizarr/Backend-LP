@@ -120,12 +120,11 @@ exports.findByCiudad = (req, res) => {
         }]
     })
         .then(data => {
-            response = data.map(item => item.abogado)
-            res.send(response);
+            res.send(data.map(item => item.abogado));
         })
         .catch(err => {
             res.status(500).send({
-                message: "Ocurrió un error al obtener los abogados."
+                message: err.message || "Ocurrió un error al obtener los abogados."
             });
         });
 }
@@ -137,10 +136,11 @@ exports.findByCategoria = (req, res)=> {
         where: {id : id_cat},
         include: [{
             model: Abogado,
+            as: 'abogados'
         }],
     })
     .then(data=>{
-        res.send(data);
+        res.send(data.map(item => item.abogados));
     })
     .catch(err =>{
         res.status(500).send({
