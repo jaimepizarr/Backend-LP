@@ -73,7 +73,9 @@ exports.login = (req, res) => {
                 });
             }
         })
-        .catch(err => {console.log(err);
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ message: "No se encontró el abogado." });
         });
     }
 };
