@@ -28,6 +28,7 @@ require("./app/routes/categoria.routes")(app);
 require("./app/routes/comentario.routes")(app);
 require("./app/routes/usuario.routes")(app);
 require("./app/routes/abogadoxcategoria.routes")(app);
+require("./app/routes/telefono.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

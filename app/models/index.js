@@ -25,8 +25,10 @@ db.usuario = require("./usuario.model.js")(sequelize, Sequelize);
 db.comentario = require("./comentario.models.js")(sequelize, Sequelize);
 db.categoria = require("./categoria.model.js")(sequelize, Sequelize);
 db.abogado_categoria = require("./abogadocategoria.model.js")(sequelize, Sequelize);
+db.telefono = require("./telefono.model.js")(sequelize, Sequelize);
 
 db.ubicacion.belongsTo(db.abogado, {as: 'abogado'});
+db.telefono.belongsTo(db.abogado, {as: 'abogado'});
 
 db.abogado.hasMany(db.comentario, { as: "comentarios" });
 db.usuario.hasMany(db.comentario, { as: "comentarios" });
