@@ -18,21 +18,30 @@ exports.findAll = (req,res)=> {
 }
 
 
-exports.create= (req,res)=>{
-    if(!req.body.nombre_completo){
+exports.create= async (req,res)=>{
+    if(!req.body.nombre_completo || !req.body.correo || !req.body.contrasena){
         res.status(400).send({
             message: "Content can not be empty"
         });
         return;
     }
+    const passwordEncrypt = await encryption.encrypt(req.body.contrasena);
+    console.log(passwordEncrypt);
     const usuario={
         nombre_completo: req.body.nombre_completo,
-        correo: req.body.correo
+        correo: req.body.correo,
+        contrasena: passwordEncrypt
     };
 
-    Usuario.create(usuario)
+    Usuario.findOrCreate({
+        where:{
+            correo: usuario.correo
+        },
+        defaults: usuario
+    })
     .then(data=>{
-    res.send(data);
+        if(data[1]) res.send(data[0]);
+        else res.status(400).send({"message": "El correo ya está registrado."});
     })
     .catch(err => {
         res.status(500).send({

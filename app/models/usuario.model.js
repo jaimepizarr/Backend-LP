@@ -5,7 +5,10 @@ module.exports = (sequelize, Sequelize)=>{
         },
         correo: {
             type: Sequelize.STRING
-        }
+        },
+        contrasena: {
+            type: Sequelize.STRING
+        },
     });
     return Usuario;
 }
