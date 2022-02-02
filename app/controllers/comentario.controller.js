@@ -2,6 +2,7 @@ const db = require("../models");
 const comentarios = db.comentario;
 const abogados = db.abogado;
 const Op = db.Sequelize.Op;
+const { Sequelize } = require("../models");
 
 exports.create = (req, res) => {
     // Validate request
@@ -22,7 +23,8 @@ exports.create = (req, res) => {
     
     // Save
     comentarios.create(comentario)
-    .then(data => {
+    .then(async data => {
+        await getPromedioCalif(req.body.abogadoId);
         res.send(data);
     })
     .catch(err => {
@@ -49,4 +51,20 @@ exports.findComments = (req,res) =>{
             });
     });
 
+}
+
+getPromedioCalif=(abogadoId) => {
+    comentarios.findAll({
+        where : {abogadoId: abogadoId},
+        attributes: [[Sequelize.fn('SUM', Sequelize.col('calificacion')), 'suma'],
+        [Sequelize.fn('COUNT', Sequelize.col('calificacion')), 'cantidad'],]
+    }).then(data=>{
+        acum = data[0].dataValues.suma+5;
+        cant = data[0].dataValues.cantidad+1;
+        abogados.update(
+            {calificacion: acum/cant},
+            {where: {id: abogadoId}}
+        );
+        
+    }).catch(err=>console.log(err));
 }
