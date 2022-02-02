@@ -1,10 +1,11 @@
 const { response } = require("express");
-const { abogado } = require("../models");
+const { abogado, telefono } = require("../models");
 const db = require("../models");
 const Abogado = db.abogado;
 const abogadoxcategoria = db.abogado_categoria;
 const categoria = db.categoria;
 const Ubicacion = db.ubicacion;
+const Telefono = db.telefono;
 const Op = db.Sequelize.Op;
 const encryption = require("../utils/encryption");
 
@@ -99,9 +100,22 @@ exports.findRanking = (req, res) => {
 
 exports.findOne = (req,res) =>{
     const id= req.query.id;
-  Abogado.findOne({where: id})
-    .then(data => {
-      res.send(data);
+  Abogado.findOne({
+      where: {id: id},
+      include: [{
+          model: categoria,
+      }]
+    })
+    .then(async data => {
+        var ubicacion = await Ubicacion.findAll({
+            where: { abogadoId: id },
+        });
+        var telefono = await Telefono.findAll({
+            where: { abogadoId: id },
+        })
+        data.dataValues.ubicacion = ubicacion;
+        data.dataValues.telefono = telefono;
+        res.send(data);
     })
     .catch(err => {
       res.status(500).send({
