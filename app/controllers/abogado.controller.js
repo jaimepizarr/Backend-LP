@@ -13,7 +13,7 @@ exports.create = async (req, res) => {
     // Validate request
     if (!req.body.nombre_completo || !req.body.correo || !req.body.contrasena) {
         res.status(400).send({
-            message: "Se necesita que se incluya toda la información del abogado.", data: req.body	
+            message: "Se necesita que se incluya toda la información del abogado.", data: req.body
         });
         return;
     }
@@ -33,18 +33,18 @@ exports.create = async (req, res) => {
 
     // Save
     Abogado.findOrCreate({
-        where:{
+        where: {
             correo: abogado.correo
         },
         defaults: abogado
-        })  
+    })
         .then(data => {
-            if (data[1]){
+            if (data[1]) {
                 res.send(data[0]);
-            }else{
-                res.status(400).send({"message": "El correo ya está registrado."});
+            } else {
+                res.status(400).send({ "message": "El correo ya está registrado." });
             }
-            
+
         })
         .catch(err => {
             res.status(500).send({
@@ -60,33 +60,34 @@ exports.login = (req, res) => {
         res.status(400).send({
             message: "Se necesita el correo y la contraseña."
         });
-    }else{
+    } else {
         Abogado.findOne({ where: { correo: req.body.correo } })
-        .then(async data => {
-            data = data["dataValues"];
-            abogado_pass = data.contrasena;
-            let isValid = await encryption.compare(req.body.contrasena, abogado_pass)
-            if (isValid){
-                res.status(200).send(data);
-            }else{
-                res.status(401).send({
-                    message: "Contraseña incorrecta."
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send({ message: "No se encontró el abogado." });
-        });
+            .then(async data => {
+                data = data["dataValues"];
+                abogado_pass = data.contrasena;
+                let isValid = await encryption.compare(req.body.contrasena, abogado_pass)
+                if (isValid) {
+                    res.status(200).send(data);
+                } else {
+                    res.status(401).send({
+                        message: "Contraseña incorrecta."
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send({ message: "No se encontró el abogado." });
+            });
     }
 };
 
 
 exports.findRanking = (req, res) => {
-    order: [["calificacion", "DESC"]]
+
     Abogado.findAll(
         {
-            attributes: ["id", "nombre_completo", "correo", "descripcion", "experiencia", "calificacion"]
+            attributes: ["id", "nombre_completo", "correo", "descripcion", "experiencia", "calificacion"],
+            order: [["calificacion", "DESC"]]
         }
     ).then(data => {
         res.send(data);
@@ -98,31 +99,31 @@ exports.findRanking = (req, res) => {
     });
 };
 
-exports.findOne = (req,res) =>{
-    const id= req.query.id;
-  Abogado.findOne({
-      where: {id: id},
-      include: [{
-          model: categoria,
-      }]
+exports.findOne = (req, res) => {
+    const id = req.query.id;
+    Abogado.findOne({
+        where: { id: id },
+        include: [{
+            model: categoria,
+        }]
     })
-    .then(async data => {
-        var ubicacion = await Ubicacion.findAll({
-            where: { abogadoId: id },
-        });
-        var telefono = await Telefono.findAll({
-            where: { abogadoId: id },
+        .then(async data => {
+            var ubicacion = await Ubicacion.findAll({
+                where: { abogadoId: id },
+            });
+            var telefono = await Telefono.findAll({
+                where: { abogadoId: id },
+            })
+            data.dataValues.ubicacion = ubicacion;
+            data.dataValues.telefono = telefono;
+            res.send(data);
         })
-        data.dataValues.ubicacion = ubicacion;
-        data.dataValues.telefono = telefono;
-        res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
-    });
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
 };
 
 exports.findAll = (req, res) => {
@@ -156,23 +157,23 @@ exports.findByCiudad = (req, res) => {
 }
 
 
-exports.findByCategoria = (req, res)=> {
-    const id_cat=req.query.categoria;
+exports.findByCategoria = (req, res) => {
+    const id_cat = req.query.categoria;
     categoria.findAll({
-        where: {id : id_cat},
+        where: { id: id_cat },
         include: [{
             model: Abogado,
             as: 'abogados'
         }],
     })
-    .then(data=>{
-        res.send(data.map(item => item.abogados));
-    })
-    .catch(err =>{
-        res.status(500).send({
-            message: err.message || `Ocurrió un error al obtener los abogados perteneciente a la categoria de id: ${id_cat}.`
-        });
-    })
-   //console.log("enviando datos")
-   
+        .then(data => {
+            res.send(data.map(item => item.abogados));
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `Ocurrió un error al obtener los abogados perteneciente a la categoria de id: ${id_cat}.`
+            });
+        })
+    //console.log("enviando datos")
+
 }
