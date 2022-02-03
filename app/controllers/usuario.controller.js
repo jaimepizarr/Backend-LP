@@ -4,6 +4,20 @@ const Op = db.Sequelize.Op;
 const encryption = require("../utils/encryption");
 
 
+exports.findUsuario = (req,res)=>{
+    const id=req.query.id;
+    Usuario.findOne({where: {
+        id: id
+    }}).then(data=>{
+        res.send(data);
+    }).catch(err=>{
+        res.status(400).send({
+            message: err.message || "error al obtener un usuario"
+        });
+    });
+}
+
+
 exports.findAll = (req,res)=> {
     Usuario.findOne()
     .then(data => {
